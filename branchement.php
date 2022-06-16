@@ -3,10 +3,12 @@ class Branchement{
     public $CodeComp;
     public $date;
     public $etat;
-    function __construct($CodeComp,$date,$etat){
+    public $emp;
+    function __construct($CodeComp,$date,$etat,$emp){
         $this->CodeComp = $CodeComp;
         $this->date = $date;
         $this->etat = $etat;
+        $this->emp = $emp;
     }
   
 }
@@ -22,13 +24,13 @@ if($result->num_rows){
     $date = $row["date_branchement"];
     $etat = $row["etat_comp"];
     $CodeComp = $row["code_compteur"];
-    $branchement = new Branchement($CodeComp,$date,$etat);
+    $emp = $row["emp_br"];
+    $branchement = new Branchement($CodeComp,$date,$etat,$emp);
     echo json_encode($branchement);
 }else{
     echo json_encode("false");
 }
 
-// une date de realisation vous sera comuniqué dans les plus bref delais
 
 
 // en attente des formulaires
@@ -40,3 +42,17 @@ if($result->num_rows){
 // date de branchement pas encore fixé
 // en attente de branchement
 //branchement realisé
+
+// circle
+// admin (ajouter emp, demande contrat deja faites)
+// date verifier rd +3jrs actuel date 
+// date verifier metrage branchmement metrage 
+// verifier champps
+//agence service 
+
+
+//refus 
+//retour de page 
+//jointure emp
+//userInfo
+//no connection

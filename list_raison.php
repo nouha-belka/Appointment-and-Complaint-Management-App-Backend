@@ -4,11 +4,13 @@ class Reason{
     public $content;
     public $id;
     public $state;
-    function __construct($id,$subject,$content,$state){
+    public $just;
+    function __construct($id,$subject,$content,$state,$just){
         $this->subject = $subject;
         $this->content = $content;
         $this->id = $id;
         $this->state = $state;
+        $this->just = $just;
     }
   
 }
@@ -17,8 +19,8 @@ class RendezVous extends Reason{
     public  $date;
     public $heure;
     public $agent;
-    function __construct($id,$subject,$content,$state,$date,$heure,$agent){
-        parent::__construct($id,$subject,$content,$state);
+    function __construct($id,$subject,$content,$state,$just,$date,$heure,$agent){
+        parent::__construct($id,$subject,$content,$state,$just);
         $this->heure = $heure;
         $this->agent = $agent;
         $this->date = $date;
@@ -28,10 +30,10 @@ class RendezVous extends Reason{
 
 require_once("dbconfig.php");
 
-$code_client_rech = $_POST["code_client_rech"];//'123456789';
-// $code_client_rech = '123456789';
+$code_client_rech = $_POST["code_client_rech"];
+// $code_client_rech = '22AA01';
 $page = $_POST["page"];
-// $page = 'rd';
+// $page = 'refus';
 $reasonlIST = [];
 $rdList = [];
 if($page == "attente" || $page == "refus"  ){
@@ -47,7 +49,8 @@ if($page == "attente" || $page == "refus"  ){
         $suj = $row["sujet_raison"];
         $desc = $row["desc_raison"];
         $etat = $row["raison_etat"];
-        $raison = new Reason($id,$suj,$desc,$etat);
+        $just = $row["justification"];
+        $raison = new Reason($id,$suj,$desc,$etat,$just);
         array_push($reasonlIST,$raison);  
     }
     echo json_encode($reasonlIST);
@@ -72,7 +75,8 @@ if($page == "attente" || $page == "refus"  ){
         $heure = $row["heure"];
         $nom_emp = $row["nom_emp"];
         $prenom_emp = $row["prenom_emp"];
-        $rd = new  RendezVous($id,$suj,$desc,$etat,$date,$heure,$nom_emp . " " . $prenom_emp );
+        $just = "";
+        $rd = new  RendezVous($id,$suj,$desc,$etat,$just,$date,$heure,$nom_emp . " " . $prenom_emp );
         array_push($rdList,$rd);
     }
     echo json_encode($rdList);
